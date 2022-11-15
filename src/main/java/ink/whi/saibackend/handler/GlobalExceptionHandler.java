@@ -1,4 +1,4 @@
-package ink.whi.saibackend.Handler;
+package ink.whi.saibackend.handler;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
