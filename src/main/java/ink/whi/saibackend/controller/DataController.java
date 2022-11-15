@@ -23,9 +23,15 @@ public class DataController {
     StuService service;
 
     @RequestMapping("/submit")
-    public void submit(@RequestBody String json) throws IOException {
-        StuInfo stuInfo = JSON.parseObject(json, StuInfo.class);
-        service.saveStu(stuInfo);
+    public String submit(@RequestBody String json) throws IOException {
+        try {
+            StuInfo stuInfo = JSON.parseObject(json, StuInfo.class);
+            service.saveStu(stuInfo);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "网络异常，请稍后再试";
+        }
     }
 
 }
