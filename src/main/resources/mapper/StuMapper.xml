@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ink.whi.saibackend.mapper.StuMapper">
+    <insert id="addStu" parameterType="ink.whi.saibackend.pojo.StuInfo">
+        insert into sai.stuinfo(name, id, email, qq, management, introduce)
+            value (#{name}, #{id}, #{email}, #{qq}, #{management}, #{introduce});
+    </insert>
+
+    <insert id="addAbility" parameterType="ink.whi.saibackend.pojo.AbilityInfo">
+        insert into sai.ainfo(sid, level, direction, other)
+            value (#{sid},#{level},#{direction},#{other})
+    </insert>
+
+    <insert id="addLang" >
+        insert into sai.language(type, sid) value (#{lang},#{id})
+    </insert>
+
+    <select id="getAllInfo" resultMap="map">
+        select s.name `sname`, s.id stuid, s.email , s.qq,
+               s.management sman, s.introduce, a.direction,
+               a.level, a.other, l.type ltype
+               from sai.stuinfo s, sai.ainfo a, sai.language l
+                where s.id = a.sid and s.id = l.sid;
+    </select>
+    <resultMap id="map" type="ink.whi.saibackend.pojo.StuInfo">
+        <result property="name" column="sname"/>
+        <result property="id" column="stuid"/>
+        <result property="email" column="email"/>
+        <result property="qq" column="qq"/>
+        <result property="management" column="sman"/>
+        <result property="introduce" column="introduce"/>
+        <association property="info" javaType="ink.whi.saibackend.pojo.AbilityInfo">
+            <result property="level" column="level"/>
+            <result property="other" column="other"/>
+            <collection property="language" ofType="java.lang.String">
+                <result property="language" column="ltype"/>
+            </collection>
+        </association>
+    </resultMap>
+</mapper>
