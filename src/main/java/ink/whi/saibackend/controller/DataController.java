@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.transform.Source;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class DataController {
@@ -34,6 +35,15 @@ public class DataController {
             e.printStackTrace();
             return "网络异常，请稍后再试";
         }
+    }
+
+
+    @CrossOrigin
+    @RequestMapping("/query")
+    public String query() {
+        List<StuInfo> list = service.getAll();
+        String json = JSON.toJSONString(list);
+        return json;
     }
 
 }

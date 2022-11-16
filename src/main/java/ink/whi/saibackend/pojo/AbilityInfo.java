@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ConfigurationProperties(prefix = "ability")
-//@Validated
 @Component
 public class AbilityInfo implements Serializable {
     @NotNull

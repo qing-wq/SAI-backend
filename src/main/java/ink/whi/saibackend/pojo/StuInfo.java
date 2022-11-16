@@ -16,7 +16,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @ConfigurationProperties(prefix = "stuinfo")
-//@Validated
 public class StuInfo implements Serializable {
 
     @NotNull

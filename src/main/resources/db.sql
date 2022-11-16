@@ -1,3 +1,5 @@
+create database if not exists sai;
+
 create table ainfo
 (
     sid       int                       not null

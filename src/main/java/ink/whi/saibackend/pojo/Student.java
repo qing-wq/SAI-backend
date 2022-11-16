@@ -16,7 +16,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Component
 @ConfigurationProperties(prefix = "student")
-//@Validated
 public class Student implements Serializable {
     @NotNull
     String sname;
