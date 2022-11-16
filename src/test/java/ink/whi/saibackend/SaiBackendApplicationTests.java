@@ -24,7 +24,7 @@ class SaiBackendApplicationTests {
 		list.add("py");
 		list.add("java");
 		StuInfo stuInfo = new StuInfo("jingjing", 2101630102, "2702461713@qq.com", "2703482342",
-				false, "wssb",
+				 "wssb",false,
 				new AbilityInfo(2101630102, 1, "ruanjian", list, ""));
 		mapper.addStu(stuInfo);
 		mapper.addAbility(stuInfo.getInfo());
