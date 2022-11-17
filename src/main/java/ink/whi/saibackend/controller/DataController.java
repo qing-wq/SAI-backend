@@ -20,15 +20,14 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 public class DataController {
 
     @Autowired
     StuService service;
 
-    @CrossOrigin
     @PostMapping("/submit")
     public String submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
-//            StuInfo stuInfo = JSON.parseObject(json, StuInfo.class);
         if (result.hasErrors()) {
             Map<String, String> errMap = new HashMap<>();
             result.getFieldErrors().forEach((item) -> {
@@ -41,12 +40,18 @@ public class DataController {
     }
 
 
-    @CrossOrigin
-    @RequestMapping("/query")
+    @GetMapping("/query")
     public String query() {
         List<StuInfo> list = service.getAll();
-        String json = JSON.toJSONString(list);
-        return json;
+        return JSON.toJSONString(list);
+    }
+
+    @GetMapping("/query/{id}")
+    public String queryR(@PathVariable String id) {
+        List<StuInfo> list = null;
+        if (id.equals("rj")) list = service.queryRJ();
+        else if (id.equals("yj")) list = service.queryYJ();
+        return JSON.toJSONString(list);
     }
 
 
@@ -55,6 +60,7 @@ public class DataController {
      * 日志
      * 鉴权
      * 缓存
+     * 测试事务
      */
 
 }

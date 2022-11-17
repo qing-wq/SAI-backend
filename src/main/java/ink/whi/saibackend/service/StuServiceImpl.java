@@ -19,6 +19,7 @@ public class StuServiceImpl implements StuService{
         stuInfo.getInfo().setSid(stuInfo.getId());
         if (hasStu(stuInfo)) {
             replace(stuInfo);
+            return;
         }
         mapper.addStu(stuInfo);
         mapper.addAbility(stuInfo.getInfo());
@@ -27,7 +28,9 @@ public class StuServiceImpl implements StuService{
         }
     }
 
-    private void replace(StuInfo stuInfo) {
+    @Override
+    @Transactional
+    public void replace(StuInfo stuInfo) {
         mapper.updateStuById(stuInfo);
         mapper.updateAbiById(stuInfo.getInfo());
         mapper.deleteLang(stuInfo.getId());
@@ -39,6 +42,16 @@ public class StuServiceImpl implements StuService{
     @Override
     public List<StuInfo> getAll() {
         return mapper.getAllInfo();
+    }
+
+    @Override
+    public List<StuInfo> queryRJ() {
+        return mapper.getR();
+    }
+
+    @Override
+    public List<StuInfo> queryYJ() {
+        return mapper.getY();
     }
 
     public boolean hasStu(StuInfo stuInfo) {

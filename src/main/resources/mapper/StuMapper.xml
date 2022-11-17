@@ -24,6 +24,20 @@
                from sai.stuinfo s, sai.ainfo a, sai.language l
                 where s.id = a.sid and s.id = l.sid;
     </select>
+    <select id="getR" resultMap="map">
+        select s.name `sname`, s.id ssid, s.email , s.qq,
+               s.management sman, s.introduce, a.direction,
+               a.level, a.other, l.type ltype
+        from sai.stuinfo s, sai.ainfo a, sai.language l
+        where s.id = a.sid and s.id = l.sid and a.direction = '软件';
+    </select>
+    <select id="getY" resultMap="map">
+        select s.name `sname`, s.id ssid, s.email , s.qq,
+               s.management sman, s.introduce, a.direction,
+               a.level, a.other, l.type ltype
+        from sai.stuinfo s, sai.ainfo a, sai.language l
+        where s.id = a.sid and s.id = l.sid and a.direction = '硬件';
+    </select>
     <resultMap id="map" type="ink.whi.saibackend.pojo.StuInfo">
         <result property="name" column="sname"/>
         <result property="id" column="ssid"/>
@@ -34,24 +48,25 @@
         <association property="info" javaType="ink.whi.saibackend.pojo.AbilityInfo">
             <result property="level" column="level"/>
             <result property="other" column="other"/>
+            <result property="direction" column="direction"/>
             <collection property="language" ofType="java.lang.String">
                 <result property="language" column="ltype"/>
             </collection>
         </association>
     </resultMap>
 
-    <select id="selectId" >
+    <select id="selectId" resultType="java.lang.Integer">
         select count(s.id) from sai.stuinfo s where s.id = #{id}
     </select>
 
-    <update id="updatestuById" parameterType="ink.whi.saibackend.pojo.StuInfo">
+    <update id="updateStuById" parameterType="ink.whi.saibackend.pojo.StuInfo">
         update sai.stuinfo set name = #{name}, email = #{email}, qq = #{qq}, management = #{management}, introduce = #{introduce}
         where id = #{id}
     </update>
 
     <update id="updateAbiById" parameterType="ink.whi.saibackend.pojo.AbilityInfo">
         update sai.ainfo set level = #{level}, direction = #{direction}, other = #{other}
-        where sid = #{id}
+        where sid = #{sid}
     </update>
 
     <delete id="deleteLang">

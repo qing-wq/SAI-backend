@@ -19,7 +19,11 @@ public interface StuMapper {
 
    List<StuInfo> getAllInfo();
 
-   int selectId(int id);
+   List<StuInfo> getR();
+
+   List<StuInfo> getY();
+
+   Integer selectId(int id);
 
    void updateStuById(StuInfo stuInfo);
 

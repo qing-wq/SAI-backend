@@ -4,6 +4,7 @@ import ink.whi.saibackend.mapper.StuMapper;
 import ink.whi.saibackend.pojo.AbilityInfo;
 import ink.whi.saibackend.pojo.StuInfo;
 import ink.whi.saibackend.pojo.Student;
+import ink.whi.saibackend.service.StuService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,9 @@ class SaiBackendApplicationTests {
 
 	@Autowired
 	StuMapper mapper;
+
+	@Autowired
+	StuService service;
 
 
 	@Test
@@ -36,6 +40,17 @@ class SaiBackendApplicationTests {
 	@Test
 	void test() {
 		System.out.println(mapper.getAllInfo());
+	}
+
+	@Test
+	void test2() {
+		List<String> list = new ArrayList<>();
+		list.add("py");
+		list.add("java");
+		StuInfo stuInfo = new StuInfo("jingjing", 2101630102, "2702461713@qq.com", "2703482342",
+				"wssb",false,
+				new AbilityInfo(2101630102, 1, "ruanjian", list, ""));
+		service.saveStu(stuInfo);
 	}
 
 }
