@@ -8,6 +8,7 @@ import ink.whi.saibackend.service.StuService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ class SaiBackendApplicationTests {
 	@Autowired
 	StuService service;
 
+	@Autowired
+	RedisTemplate<Object, Object> redisTemplate;
 
 	@Test
 	void contextLoads() {
@@ -51,6 +54,12 @@ class SaiBackendApplicationTests {
 				"wssb",false,
 				new AbilityInfo(2101630102, 1, "ruanjian", list, ""));
 		service.saveStu(stuInfo);
+	}
+
+	@Test
+	public void test3() {
+		redisTemplate.opsForValue().set("wang","wcs");
+		System.out.println(redisTemplate.opsForValue().get("wang"));
 	}
 
 }

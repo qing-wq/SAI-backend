@@ -4,8 +4,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;

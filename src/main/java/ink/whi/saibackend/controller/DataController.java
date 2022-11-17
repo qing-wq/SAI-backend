@@ -1,19 +1,14 @@
 package ink.whi.saibackend.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import ink.whi.saibackend.mapper.StuMapper;
 import ink.whi.saibackend.pojo.StuInfo;
 import ink.whi.saibackend.service.StuService;
-import jdk.nashorn.api.scripting.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.transform.Source;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +34,7 @@ public class DataController {
         return "success";
     }
 
-
+    @Cacheable("all")
     @GetMapping("/query")
     public String query() {
         List<StuInfo> list = service.getAll();
@@ -56,10 +51,8 @@ public class DataController {
 
 
     /**
-     * 数据校验
      * 日志
      * 鉴权
-     * 缓存
      * 测试事务
      */
 
