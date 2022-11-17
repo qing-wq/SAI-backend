@@ -9,14 +9,15 @@ import jdk.nashorn.api.scripting.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Source;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DataController {
@@ -25,16 +26,18 @@ public class DataController {
     StuService service;
 
     @CrossOrigin
-    @RequestMapping("/submit")
-    public String submit(@RequestBody String json) throws IOException {
-        try {
-            StuInfo stuInfo = JSON.parseObject(json, StuInfo.class);
-            service.saveStu(stuInfo);
-            return "success";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "网络异常，请稍后再试";
+    @PostMapping("/submit")
+    public String submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
+//            StuInfo stuInfo = JSON.parseObject(json, StuInfo.class);
+        if (result.hasErrors()) {
+            Map<String, String> errMap = new HashMap<>();
+            result.getFieldErrors().forEach((item) -> {
+                errMap.put(item.getField(), item.getDefaultMessage());
+            });
+            return JSON.toJSONString(errMap);
         }
+        service.saveStu(stuInfo);
+        return "success";
     }
 
 
@@ -45,5 +48,13 @@ public class DataController {
         String json = JSON.toJSONString(list);
         return json;
     }
+
+
+    /**
+     * 数据校验
+     * 日志
+     * 鉴权
+     * 缓存
+     */
 
 }

@@ -17,7 +17,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "ability")
 @Component
 public class AbilityInfo implements Serializable {
-    @NotNull
     Integer sid;
     @NotNull
     Integer level;

@@ -11,12 +11,19 @@ import java.util.List;
 @Repository
 public interface StuMapper {
 
-   int addStu(StuInfo stuInfo);
+   void addStu(StuInfo stuInfo);
 
-   int addAbility(AbilityInfo abilityInfo);
+   void addAbility(AbilityInfo abilityInfo);
 
-   int addLang( String lang, int id);
+   void addLang(String lang, int id);
 
    List<StuInfo> getAllInfo();
 
+   int selectId(int id);
+
+   void updateStuById(StuInfo stuInfo);
+
+   void updateAbiById(AbilityInfo info);
+
+   void deleteLang(int id);
 }

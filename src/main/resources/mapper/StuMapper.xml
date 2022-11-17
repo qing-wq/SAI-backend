@@ -18,7 +18,7 @@
     </insert>
 
     <select id="getAllInfo" resultMap="map">
-        select s.name `sname`, s.id stuid, s.email , s.qq,
+        select s.name `sname`, s.id ssid, s.email , s.qq,
                s.management sman, s.introduce, a.direction,
                a.level, a.other, l.type ltype
                from sai.stuinfo s, sai.ainfo a, sai.language l
@@ -26,7 +26,7 @@
     </select>
     <resultMap id="map" type="ink.whi.saibackend.pojo.StuInfo">
         <result property="name" column="sname"/>
-        <result property="id" column="stuid"/>
+        <result property="id" column="ssid"/>
         <result property="email" column="email"/>
         <result property="qq" column="qq"/>
         <result property="management" column="sman"/>
@@ -39,4 +39,22 @@
             </collection>
         </association>
     </resultMap>
+
+    <select id="selectId" >
+        select count(s.id) from sai.stuinfo s where s.id = #{id}
+    </select>
+
+    <update id="updatestuById" parameterType="ink.whi.saibackend.pojo.StuInfo">
+        update sai.stuinfo set name = #{name}, email = #{email}, qq = #{qq}, management = #{management}, introduce = #{introduce}
+        where id = #{id}
+    </update>
+
+    <update id="updateAbiById" parameterType="ink.whi.saibackend.pojo.AbilityInfo">
+        update sai.ainfo set level = #{level}, direction = #{direction}, other = #{other}
+        where sid = #{id}
+    </update>
+
+    <delete id="deleteLang">
+        delete from sai.language where sid = #{id}
+    </delete>
 </mapper>
