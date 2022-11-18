@@ -29,7 +29,6 @@ public class StuServiceImpl implements StuService{
     }
 
     @Override
-    @Transactional
     public void replace(StuInfo stuInfo) {
         mapper.updateStuById(stuInfo);
         mapper.updateAbiById(stuInfo.getInfo());
@@ -45,6 +44,7 @@ public class StuServiceImpl implements StuService{
     }
 
     @Override
+
     public List<StuInfo> queryRJ() {
         return mapper.getR();
     }

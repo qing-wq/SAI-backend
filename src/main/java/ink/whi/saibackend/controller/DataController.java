@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import ink.whi.saibackend.pojo.StuInfo;
 import ink.whi.saibackend.service.StuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +23,7 @@ public class DataController {
     StuService service;
 
     @PostMapping("/submit")
+    @CacheEvict({"stuY","stuR","hasStu","stu"})
     public String submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
         if (result.hasErrors()) {
             Map<String, String> errMap = new HashMap<>();
@@ -34,8 +36,8 @@ public class DataController {
         return "success";
     }
 
-    @Cacheable("all")
     @GetMapping("/query")
+    @Cacheable("stu")
     public String query() {
         List<StuInfo> list = service.getAll();
         return JSON.toJSONString(list);

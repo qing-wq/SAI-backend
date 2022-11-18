@@ -3,6 +3,8 @@ package ink.whi.saibackend.mapper;
 import ink.whi.saibackend.pojo.AbilityInfo;
 import ink.whi.saibackend.pojo.StuInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
