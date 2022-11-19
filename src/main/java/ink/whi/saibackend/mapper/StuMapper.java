@@ -21,6 +21,8 @@ public interface StuMapper {
 
    List<StuInfo> getAllInfo();
 
+   StuInfo getStuById(int id);
+
    List<StuInfo> getR();
 
    List<StuInfo> getY();

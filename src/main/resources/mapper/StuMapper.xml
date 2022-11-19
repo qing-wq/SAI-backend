@@ -24,6 +24,7 @@
                from sai.stuinfo s, sai.ainfo a, sai.language l
                 where s.id = a.sid and s.id = l.sid;
     </select>
+
     <select id="getR" resultMap="map">
         select s.name `sname`, s.id ssid, s.email , s.qq,
                s.management sman, s.introduce, a.direction,
@@ -31,6 +32,7 @@
         from sai.stuinfo s, sai.ainfo a, sai.language l
         where s.id = a.sid and s.id = l.sid and a.direction = '软件';
     </select>
+
     <select id="getY" resultMap="map">
         select s.name `sname`, s.id ssid, s.email , s.qq,
                s.management sman, s.introduce, a.direction,
@@ -38,6 +40,15 @@
         from sai.stuinfo s, sai.ainfo a, sai.language l
         where s.id = a.sid and s.id = l.sid and a.direction = '硬件';
     </select>
+
+    <select id="getStuById" resultMap="map">
+        select s.name `sname`, s.id ssid, s.email , s.qq,
+               s.management sman, s.introduce, a.direction,
+               a.level, a.other, l.type ltype
+        from sai.stuinfo s, sai.ainfo a, sai.language l
+        where s.id = #{id};
+    </select>
+
     <resultMap id="map" type="ink.whi.saibackend.pojo.StuInfo">
         <result property="name" column="sname"/>
         <result property="id" column="ssid"/>

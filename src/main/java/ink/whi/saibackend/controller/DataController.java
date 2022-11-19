@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import ink.whi.saibackend.pojo.StuInfo;
 import ink.whi.saibackend.service.StuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -23,8 +22,8 @@ public class DataController {
     StuService service;
 
     @PostMapping("/submit")
-    @CacheEvict({"stuY","stuR","hasStu","stu"})
     public String submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
+
         if (result.hasErrors()) {
             Map<String, String> errMap = new HashMap<>();
             result.getFieldErrors().forEach((item) -> {
@@ -37,18 +36,25 @@ public class DataController {
     }
 
     @GetMapping("/query")
-    @Cacheable("stu")
+    @Cacheable(value = "all", key = "#root.method.name")
     public String query() {
         List<StuInfo> list = service.getAll();
         return JSON.toJSONString(list);
     }
 
-    @GetMapping("/query/{id}")
-    public String queryR(@PathVariable String id) {
+    @GetMapping("/query/{type}")
+    public String query2(@PathVariable String type) {
         List<StuInfo> list = null;
-        if (id.equals("rj")) list = service.queryRJ();
-        else if (id.equals("yj")) list = service.queryYJ();
+        if (type.equals("rj")) list = service.queryRJ();
+        else if (type.equals("yj")) list = service.queryYJ();
         return JSON.toJSONString(list);
+    }
+
+    @GetMapping("/query/id/{id}")
+    @Cacheable(value = "stu", key = "#id")
+    public String queryById(@PathVariable String id) {
+        StuInfo stu = service.getStuByID(Integer.parseInt(id));
+        return JSON.toJSONString(stu);
     }
 
 

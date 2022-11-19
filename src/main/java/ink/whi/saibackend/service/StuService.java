@@ -10,6 +10,8 @@ public interface StuService {
 
     List<StuInfo> getAll();
 
+    StuInfo getStuByID(int id);
+
     List<StuInfo> queryRJ();
 
     List<StuInfo> queryYJ();
