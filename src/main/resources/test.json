@@ -1,14 +1,18 @@
 {
-  "name": "名字",
-  "id": "2101600001",
-  "email": "123456@qq.com",
-  "qq": "123456",
-  "introduce": "自我介绍",
+  "name": "胡菁菁",
+  "id": "2101630101",
+  "email": "2702461713@qq.com",
+  "qq": "242342423",
+  "introduce": "erewrwewerew",
   "management": false,
   "info": {
-    "level": "33",
-    "direction": "硬件",
-    "language": ["c++","java","py"],
+    "level": 0,
+    "direction": "软件",
+    "language": [
+      "c",
+      "java",
+      "python"
+    ],
     "other": ""
   }
 }

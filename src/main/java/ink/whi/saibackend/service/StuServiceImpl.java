@@ -19,11 +19,9 @@ public class StuServiceImpl implements StuService {
 
     @Override
     @Transactional
-    @Caching(put = {
-            @CachePut(value = "stu", key = "#stuInfo.id")
-    }, evict = {
+    @Caching(evict = {
             @CacheEvict(value = "all", allEntries = true),
-            @CacheEvict(value = "stu", key = "#stuInfo.id", beforeInvocation = true)
+            @CacheEvict(value = "stu", key = "#stuInfo.id")
     })
     public void saveStu(StuInfo stuInfo) {
         stuInfo.getInfo().setSid(stuInfo.getId());
