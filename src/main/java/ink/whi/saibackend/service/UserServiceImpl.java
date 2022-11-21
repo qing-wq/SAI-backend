@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService{
         String pwd = TaleUtil.MD5encoder(username + password);
         UserInfo userInfo = userMapper.getUserByCond(username, pwd);
         if (userInfo == null) {
-            throw BusinessException.withErrorCode(WebConstant.Auth.USERNAME_PASSWORD_IS_EMPTY);
+            throw BusinessException.withErrorCode(WebConstant.Auth.USERNAME_PASSWORD_ERROR);
         }
         return userInfo;
     }

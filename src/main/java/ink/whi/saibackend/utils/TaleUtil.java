@@ -119,7 +119,7 @@ public class TaleUtil {
         try {
             expiresAt = JWT.require(Algorithm.HMAC256(WebConstant.JWT.JWT_KEY))
                     .build()
-                    .verify(token)
+                    .verify(token.replace(WebConstant.JWT.TOKEN_PREFIX, ""))
                     .getExpiresAt();
         } catch (TokenExpiredException e) {
             throw BusinessException.withErrorCode("token验证失败");

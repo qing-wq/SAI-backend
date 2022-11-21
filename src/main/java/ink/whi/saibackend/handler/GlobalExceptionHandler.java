@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-
 @ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {
@@ -25,9 +23,9 @@ public class GlobalExceptionHandler {
         return msg;
     }
 
-//    @ExceptionHandler(value = Exception.class)
-//    public String GlobalHandler(Exception exception){
-//        LOGGER.error("[Error]: {}", exception.getMessage());
-//        return "Request Error";
-//    }
+    @ExceptionHandler(value = Exception.class)
+    public String GlobalHandler(Exception exception){
+        LOGGER.error("[Error]: {}", exception.getMessage());
+        return "Request Error";
+    }
 }

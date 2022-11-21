@@ -3,6 +3,7 @@ package ink.whi.saibackend.controller;
 import com.alibaba.fastjson.JSON;
 import ink.whi.saibackend.pojo.StuInfo;
 import ink.whi.saibackend.service.StuService;
+import ink.whi.saibackend.utils.CheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,11 +27,8 @@ public class DataController {
 
     @PostMapping("/submit")
     public String submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
-        if (result.hasErrors()) {
-            Map<String, String> errMap = new HashMap<>();
-            result.getFieldErrors().forEach((item) -> {
-                errMap.put(item.getField(), item.getDefaultMessage());
-            });
+        Map<String, String> errMap = CheckUtil.CheckResult(result);
+        if (errMap.isEmpty()) {
             return JSON.toJSONString(errMap);
         }
         service.saveStu(stuInfo);
@@ -62,9 +59,6 @@ public class DataController {
 
 
     /**
-     * 日志
-     * 鉴权
      * 测试事务
      */
-
 }

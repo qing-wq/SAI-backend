@@ -22,10 +22,10 @@ public class AuthController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/login")
-    public String admin() {
-        return "login";
-    }
+//    @GetMapping("/login")
+//    public String admin() {
+//        return "login";
+//    }
 
     @ResponseBody
     @PostMapping("/login")
