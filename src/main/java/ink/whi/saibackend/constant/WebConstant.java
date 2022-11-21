@@ -9,4 +9,12 @@ public interface WebConstant {
         String LOGIN_SUCCESS = "success";
     }
 
+    interface MD5{
+        String MD5_SALT = "GUET-SAI-CXJD";
+    }
+
+    interface JWT{
+        String JWT_KEY = "SAI-JWT";
+    }
+
 }
