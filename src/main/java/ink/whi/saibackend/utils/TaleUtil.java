@@ -5,8 +5,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import ink.whi.saibackend.constant.WebConstant;
+import ink.whi.saibackend.exception.BusinessException;
 import ink.whi.saibackend.pojo.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 public class TaleUtil {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(TaleUtil.class);
+
+    private static final long ONE_MONTH = 30 * 24 * 60 * 60 * 1000L;
 
     /**
      * MD5加密
@@ -41,6 +46,12 @@ public class TaleUtil {
         }
     }
 
+    /**
+     * 根据请求获取ip
+     *
+     * @param request
+     * @return
+     */
     public static String getIpAddrByRequest(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -55,13 +66,22 @@ public class TaleUtil {
         return ip;
     }
 
-    public static String createToken(UserInfo userInfo) {
+    /**
+     * 生成token
+     *
+     * @param username
+     * @return
+     */
+    public static String createToken(String username) {
         try {
+            // claims:payload的私有声明
             Algorithm algorithm = Algorithm.HMAC256(WebConstant.JWT.JWT_KEY);
             String token = JWT.create()
-                    .withIssuer("auth0")
+                    .withSubject(username)
+                    .withIssuedAt(new Date(System.currentTimeMillis()))
+                    .withExpiresAt(new Date(System.currentTimeMillis() + ONE_MONTH))
                     .sign(algorithm);
-            return token;
+            return WebConstant.JWT.TOKEN_PREFIX + token;
         } catch (JWTCreationException exception) {
             //Invalid Signing
             LOGGER.error("[Error]: {}", exception.getMessage());
@@ -69,19 +89,42 @@ public class TaleUtil {
         return "";
     }
 
-    public boolean VerifyToken(String token) {
+    /**
+     * 校验token
+     *
+     * @param token
+     * @return
+     */
+    public static String isVerify(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(WebConstant.JWT.JWT_KEY);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
-                    .acceptLeeway(60)
-                    .build();
-            DecodedJWT jwt = verifier.verify(token);
+            String subject = JWT.require(algorithm)
+                    .build()
+                    .verify(token.replace(WebConstant.JWT.TOKEN_PREFIX, ""))
+                    .getSubject();
+            return subject;
         } catch (JWTVerificationException e) {
             LOGGER.error("[Error]: {}", e.getMessage());
-            return false;
+            return "";
         }
-        return true;
+    }
+
+    /**
+     * 检验token是否需要更新
+     * @param token
+     * @return
+     */
+    public static boolean isNeedUpdate(String token) {
+        Date expiresAt = null;
+        try {
+            expiresAt = JWT.require(Algorithm.HMAC256(WebConstant.JWT.JWT_KEY))
+                    .build()
+                    .verify(token)
+                    .getExpiresAt();
+        } catch (TokenExpiredException e) {
+            throw BusinessException.withErrorCode("token验证失败");
+        }
+        return (expiresAt.getTime() - System.currentTimeMillis()) < (ONE_MONTH>>1);
     }
 
 }

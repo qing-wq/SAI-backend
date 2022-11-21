@@ -15,6 +15,8 @@ public interface WebConstant {
 
     interface JWT{
         String JWT_KEY = "SAI-JWT";
+        String Authorization = "Authorization";
+        String TOKEN_PREFIX = "Bearer ";
     }
 
 }

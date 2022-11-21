@@ -25,9 +25,9 @@ public class GlobalExceptionHandler {
         return msg;
     }
 
-    @ExceptionHandler(value = Exception.class)
-    public String GlobalHandler(Exception exception){
-        LOGGER.error("[Error]: {}", exception.getMessage());
-        return "Request Error";
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    public String GlobalHandler(Exception exception){
+//        LOGGER.error("[Error]: {}", exception.getMessage());
+//        return "Request Error";
+//    }
 }
