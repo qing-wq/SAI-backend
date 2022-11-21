@@ -17,6 +17,8 @@ public interface WebConstant {
         String JWT_KEY = "SAI-JWT";
         String Authorization = "Authorization";
         String TOKEN_PREFIX = "Bearer ";
+        String TOKEN_ERROR = "token错误！";
+        String TOKEN_NOT_EXIST = "token不存在！";
     }
 
 }

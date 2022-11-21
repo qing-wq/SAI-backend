@@ -10,4 +10,7 @@ public interface UserMapper {
     @Select("select * from sai.user where username = #{username} and password = #{password}")
     UserInfo getUserByCond(String username, String password);
 
+    @Select("select count(username) from sai.user where username = #{username}")
+    int hasUserName(String username);
+
 }

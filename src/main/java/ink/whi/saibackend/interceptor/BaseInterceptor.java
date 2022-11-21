@@ -2,6 +2,8 @@ package ink.whi.saibackend.interceptor;
 
 import ink.whi.saibackend.constant.WebConstant;
 import ink.whi.saibackend.exception.BusinessException;
+import ink.whi.saibackend.mapper.UserMapper;
+import ink.whi.saibackend.service.UserService;
 import ink.whi.saibackend.utils.TaleUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -20,6 +22,8 @@ public class BaseInterceptor implements HandlerInterceptor {
 
     private static final String USER_AGENT = "user-agent";
 
+    UserService userService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURL = request.getRequestURI();
@@ -30,15 +34,15 @@ public class BaseInterceptor implements HandlerInterceptor {
         // 获取token
         String token = request.getHeader(WebConstant.JWT.Authorization);
         if (StringUtils.isBlank(token)) {
-            LOGGER.info("token不存在");
+            LOGGER.info("[Error]: {}", WebConstant.JWT.TOKEN_NOT_EXIST);
             response.sendRedirect("/admin/login");
             return false;
         }
         // 验证token
         String sub = TaleUtil.isVerify(token);
-        if (StringUtils.isBlank(sub)) {
-            LOGGER.error("[Error]: token验证失败");
-            throw BusinessException.withErrorCode("token错误");
+        if (StringUtils.isBlank(sub) || !userService.hasUser(sub)) {
+            LOGGER.error("[Error]: {}", WebConstant.JWT.TOKEN_ERROR);
+            throw BusinessException.withErrorCode(WebConstant.JWT.TOKEN_ERROR);
         }
         if (TaleUtil.isNeedUpdate(token)) {
             response.setHeader(WebConstant.JWT.Authorization, TaleUtil.createToken(sub));

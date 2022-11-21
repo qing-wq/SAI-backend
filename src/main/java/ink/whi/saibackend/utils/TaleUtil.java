@@ -9,6 +9,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import ink.whi.saibackend.constant.WebConstant;
 import ink.whi.saibackend.exception.BusinessException;
+import ink.whi.saibackend.mapper.UserMapper;
 import ink.whi.saibackend.pojo.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

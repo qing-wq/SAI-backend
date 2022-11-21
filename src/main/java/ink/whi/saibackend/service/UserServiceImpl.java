@@ -27,4 +27,9 @@ public class UserServiceImpl implements UserService{
         }
         return userInfo;
     }
+
+    @Override
+    public boolean hasUser(String username) {
+        return userMapper.hasUserName(username) != 0;
+    }
 }
