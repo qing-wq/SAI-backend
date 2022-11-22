@@ -9,11 +9,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
+    private AuthInterceptor authInterceptor;
+
+    @Autowired
     private BaseInterceptor baseInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(baseInterceptor).addPathPatterns("/query");
+        registry.addInterceptor(authInterceptor).addPathPatterns("/query/**");
+        registry.addInterceptor(baseInterceptor).addPathPatterns("/**");
     }
 
 }

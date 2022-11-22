@@ -66,21 +66,4 @@ class SaiBackendApplicationTests {
 		System.out.println(redisTemplate.opsForValue().get("wang"));
 	}
 
-	@Test
-	public void test4() {
-		String source = "root" + "sai2022";
-		try {
-			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-			byte[] encode = messageDigest.digest((source + WebConstant.MD5.MD5_SALT).getBytes(StandardCharsets.UTF_8));
-			StringBuilder hexString = new StringBuilder();
-			for (byte en : encode) {
-				hexString.append(String.format("%02x", en));
-			}
-			System.out.println(hexString.toString());
-		} catch (NoSuchAlgorithmException e) {
-//			LOGGER.error("[Error]: {}", e.getMessage());
-//			return "";
-		}
-	}
-
 }

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
+@CrossOrigin
 @RequestMapping("/admin")
 public class AuthController {
 

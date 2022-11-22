@@ -26,3 +26,11 @@ create table stuinfo
     management varchar(1)   not null,
     introduce  varchar(900) not null
 );
+create table user
+(
+    username varchar(255) not null comment '用户名' primary key,
+    password varchar(255) not null comment '密码',
+    uid      int(10)      not null comment 'id'
+);
+
+insert into sai.user(username, password, uid) value ('root', '79f453511a18bc7145f9a613795e260a', 1);

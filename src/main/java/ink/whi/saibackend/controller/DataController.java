@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@RestController
 @CrossOrigin
+@RestController
 public class DataController {
 
     Logger logger = LoggerFactory.getLogger(DataController.class);
