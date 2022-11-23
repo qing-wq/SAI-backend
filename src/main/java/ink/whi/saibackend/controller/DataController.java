@@ -28,7 +28,7 @@ public class DataController {
     @PostMapping("/submit")
     public String submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
         Map<String, String> errMap = CheckUtil.CheckResult(result);
-        if (errMap.isEmpty()) {
+        if (!errMap.isEmpty()) {
             return JSON.toJSONString(errMap);
         }
         service.saveStu(stuInfo);
@@ -36,7 +36,7 @@ public class DataController {
     }
 
     @GetMapping("/query")
-    @Cacheable(value = "all", key = "#root.method.name")
+//    @Cacheable(value = "all", key = "#root.method.name")
     public String query() {
         List<StuInfo> list = service.getAll();
         return JSON.toJSONString(list);
@@ -51,7 +51,7 @@ public class DataController {
     }
 
     @GetMapping("/query/id/{id}")
-    @Cacheable(value = "stu", key = "#id")
+//    @Cacheable(value = "stu", key = "#id")
     public String queryById(@PathVariable String id) {
         StuInfo stu = service.getStuByID(Integer.parseInt(id));
         return JSON.toJSONString(stu);

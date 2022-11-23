@@ -7,6 +7,7 @@ import ink.whi.saibackend.utils.TaleUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private static final String USER_AGENT = "user-agent";
 
+    @Autowired
     UserService userService;
 
     @Override
@@ -39,6 +41,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
         // 验证token
         String sub = TaleUtil.isVerify(token);
+        System.out.println(sub);
         if (StringUtils.isBlank(sub) || !userService.hasUser(sub)) {
             LOGGER.error("[Error]: {}", WebConstant.JWT.TOKEN_ERROR);
             throw BusinessException.withErrorCode(WebConstant.JWT.TOKEN_ERROR);
