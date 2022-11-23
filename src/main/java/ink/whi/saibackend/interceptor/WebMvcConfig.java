@@ -14,10 +14,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private BaseInterceptor baseInterceptor;
 
+    private static final String STATIC_RESOURCE = "/static/**";
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor).addPathPatterns("/query/**");
-        registry.addInterceptor(baseInterceptor).addPathPatterns("/**").excludePathPatterns("/query");
+        registry.addInterceptor(baseInterceptor).addPathPatterns("/**").excludePathPatterns(STATIC_RESOURCE);
+        registry.addInterceptor(authInterceptor).addPathPatterns("/query/**").excludePathPatterns(STATIC_RESOURCE).order(1);  // 设置优先级
     }
 
 }

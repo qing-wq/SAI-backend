@@ -29,14 +29,11 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
 
-        LOGGER.info("[UserAgent]: {}", request.getHeader(USER_AGENT));
-        LOGGER.info("[来路地址]: {}, [用户请求地址]: {}", TaleUtil.getIpAddrByRequest(request), requestURI);
-
         // 获取token
         String token = request.getHeader(WebConstant.JWT.Authorization);
         if (StringUtils.isBlank(token)) {
             LOGGER.info("[Error]: {}", WebConstant.JWT.TOKEN_NOT_EXIST);
-            response.sendRedirect("/admin/login");
+            response.sendRedirect("/login");
             return false;
         }
         // 验证token

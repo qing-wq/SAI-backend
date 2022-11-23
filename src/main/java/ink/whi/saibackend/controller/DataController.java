@@ -16,11 +16,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin
+//@CrossOrigin
 @RestController
 public class DataController {
 
-    Logger logger = LoggerFactory.getLogger(DataController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataController.class);
 
     @Autowired
     StuService service;
