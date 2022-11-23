@@ -33,12 +33,10 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = request.getHeader(WebConstant.JWT.Authorization);
         if (StringUtils.isBlank(token)) {
             LOGGER.info("[Error]: {}", WebConstant.JWT.TOKEN_NOT_EXIST);
-            response.sendRedirect("/login");
-            return false;
+            throw BusinessException.withErrorCode(WebConstant.JWT.TOKEN_NOT_EXIST);
         }
         // 验证token
         String sub = TaleUtil.isVerify(token);
-        System.out.println(sub);
         if (StringUtils.isBlank(sub) || !userService.hasUser(sub)) {
             LOGGER.error("[Error]: {}", WebConstant.JWT.TOKEN_ERROR);
             throw BusinessException.withErrorCode(WebConstant.JWT.TOKEN_ERROR);
