@@ -32,8 +32,6 @@ public class AuthController {
         }
         UserInfo user = userService.login(userInfo.getUsername(), userInfo.getPassword());
         String token = TaleUtil.createToken(user.getUsername());
-//        response.addHeader("Access-Control-Allow-Headers","Content-Type, token");
-//        response.addHeader("Access-Control-Expose-Headers","Content-Type, token");
         response.setHeader(WebConstant.JWT.Authorization, token);
         return WebConstant.Auth.LOGIN_SUCCESS;
     }

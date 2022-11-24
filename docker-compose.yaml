@@ -1,0 +1,10 @@
+version: "1"
+
+services:
+  sai-server:
+    image: qingpwq/sai-server
+    container_name: sai-backend
+    ports:
+      - "8080:8080"
+
+  # mysql配置
