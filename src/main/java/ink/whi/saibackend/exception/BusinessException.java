@@ -20,10 +20,10 @@ public class BusinessException extends RuntimeException{
         this.errorCode = errorCode;
     }
 
+
     public static BusinessException withErrorCode(String message) {
         BusinessException businessException = new BusinessException();
         businessException.setErrorCode(message);
         return businessException;
     }
-
 }
