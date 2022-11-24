@@ -23,16 +23,14 @@ public class BaseFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        response.addHeader("Access-Control-Allow-Credentials", "true");
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,DELETE,PUT");
-        response.addHeader("Access-Control-Allow-Headers", "*");
-        response.addHeader("Access-Control-Max-Age", "1800");
+//        response.addHeader("Access-Control-Allow-Credentials", "true");
+//        response.addHeader("Access-Control-Allow-Origin", "*");
+//        response.addHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,DELETE,PUT");
+//        response.addHeader("Access-Control-Allow-Headers", "Authorization,Accept, Origin,X-Requested-With, Content-Type, Last-Modified");
+//        response.addHeader("Access-Control-Max-Age", "1800");
 
         if (OPTIONS.equals(((HttpServletRequest) servletRequest).getMethod())) {
-            System.out.println("预请求");
-            LOGGER.info("[INFO]: 相应预请求}");
-            response.getWriter().println("ok");
+            LOGGER.info("[INFO]: 响应预请求}");
             return;
         }
         filterChain.doFilter(servletRequest, response);
