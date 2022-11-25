@@ -20,7 +20,7 @@ public class Student implements Serializable {
     @NotNull
     String sname;
     @NotNull
-    Integer id;
+    String id;
     @Email
     String email;
     @NotNull

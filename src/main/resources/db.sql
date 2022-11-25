@@ -1,4 +1,11 @@
-create database if not exists sai;
+# create database if not exists sai;
+
+use sai;
+
+drop table if exists stuinfo;
+drop table if exists ainfo;
+drop table if exists language;
+drop table if exists user;
 
 create table ainfo
 (

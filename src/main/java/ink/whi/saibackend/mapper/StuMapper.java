@@ -17,21 +17,21 @@ public interface StuMapper {
 
    void addAbility(AbilityInfo abilityInfo);
 
-   void addLang(String lang, int id);
+   void addLang(String lang, String id);
 
    List<StuInfo> getAllInfo();
 
-   StuInfo getStuById(int id);
+   StuInfo getStuById(String id);
 
    List<StuInfo> getR();
 
    List<StuInfo> getY();
 
-   Integer selectId(int id);
+   Integer selectId(String id);
 
    void updateStuById(StuInfo stuInfo);
 
    void updateAbiById(AbilityInfo info);
 
-   void deleteLang(int id);
+   void deleteLang(String id);
 }

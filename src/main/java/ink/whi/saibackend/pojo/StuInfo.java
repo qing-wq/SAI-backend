@@ -21,7 +21,7 @@ public class StuInfo implements Serializable {
     @NotNull
     String name;
     @NotNull
-    Integer id;
+    String id;
     @Email
     String email;
     @NotNull

@@ -7,7 +7,6 @@ import ink.whi.saibackend.utils.CheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +52,7 @@ public class DataController {
     @GetMapping("/query/id/{id}")
 //    @Cacheable(value = "stu", key = "#id")
     public String queryById(@PathVariable String id) {
-        StuInfo stu = service.getStuByID(Integer.parseInt(id));
+        StuInfo stu = service.getStuByID(id);
         return JSON.toJSONString(stu);
     }
 

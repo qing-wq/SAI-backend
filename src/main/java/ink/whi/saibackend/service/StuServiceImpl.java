@@ -52,7 +52,7 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public StuInfo getStuByID(int id) {
+    public StuInfo getStuByID(String id) {
         return mapper.getStuById(id);
     }
 
