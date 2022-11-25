@@ -1,6 +1,7 @@
 package ink.whi.saibackend.controller;
 
 import com.alibaba.fastjson.JSON;
+import ink.whi.saibackend.pojo.ResponseInfo;
 import ink.whi.saibackend.pojo.StuInfo;
 import ink.whi.saibackend.service.StuService;
 import ink.whi.saibackend.utils.CheckUtil;
@@ -25,13 +26,14 @@ public class DataController {
     StuService service;
 
     @PostMapping("/submit")
-    public String submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
+    public ResponseInfo<String> submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
         Map<String, String> errMap = CheckUtil.CheckResult(result);
         if (!errMap.isEmpty()) {
-            return JSON.toJSONString(errMap);
+//            return JSON.toJSONString(errMap);
+            return ResponseInfo.fail(JSON.toJSONString(errMap));
         }
         service.saveStu(stuInfo);
-        return "success";
+        return ResponseInfo.success();
     }
 
     @GetMapping("/query")
@@ -39,6 +41,7 @@ public class DataController {
     public String query() {
         List<StuInfo> list = service.getAll();
         return JSON.toJSONString(list);
+//        return ResponseInfo.success(list);
     }
 
     @GetMapping("/query/{type}")

@@ -30,5 +30,6 @@ public class StuInfo implements Serializable {
     String introduce;
     @NotNull
     boolean management;
+
     AbilityInfo info;
 }

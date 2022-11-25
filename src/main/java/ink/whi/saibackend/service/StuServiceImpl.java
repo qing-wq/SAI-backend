@@ -1,21 +1,23 @@
 package ink.whi.saibackend.service;
 
 import ink.whi.saibackend.mapper.StuMapper;
+import ink.whi.saibackend.pojo.AbilityInfo;
 import ink.whi.saibackend.pojo.StuInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class StuServiceImpl implements StuService {
 
     @Autowired
-    StuMapper mapper;
+    StuMapper stuMapper;
+
+    @Autowired
+    StuService stuService;
 
     @Override
     @Transactional
@@ -26,47 +28,48 @@ public class StuServiceImpl implements StuService {
     public void saveStu(StuInfo stuInfo) {
         stuInfo.getInfo().setSid(stuInfo.getId());
         if (hasStu(stuInfo)) {
-            replace(stuInfo);
+            stuService.replace(stuInfo);
             return;
         }
-        mapper.addStu(stuInfo);
-        mapper.addAbility(stuInfo.getInfo());
+        stuMapper.addStu(stuInfo);
+        stuMapper.addAbility(stuInfo.getInfo());
         for (String s : stuInfo.getInfo().getLanguage()) {
-            mapper.addLang(s, stuInfo.getId());
+            stuMapper.addLang(s, stuInfo.getId());
         }
     }
 
     @Override
+    @Transactional
     public void replace(StuInfo stuInfo) {
-        mapper.updateStuById(stuInfo);
-        mapper.updateAbiById(stuInfo.getInfo());
-        mapper.deleteLang(stuInfo.getId());
+        stuMapper.updateStuById(stuInfo);
+        stuMapper.updateAbiById(stuInfo.getInfo());
+        stuMapper.deleteLang(stuInfo.getId());
         for (String s : stuInfo.getInfo().getLanguage()) {
-            mapper.addLang(s, stuInfo.getId());
+            stuMapper.addLang(s, stuInfo.getId());
         }
     }
 
     @Override
     public List<StuInfo> getAll() {
-        return mapper.getAllInfo();
+        return stuMapper.getAllInfo();
     }
 
     @Override
     public StuInfo getStuByID(String id) {
-        return mapper.getStuById(id);
+        return stuMapper.getStuById(id);
     }
 
     @Override
     public List<StuInfo> queryRJ() {
-        return mapper.getR();
+        return stuMapper.getR();
     }
 
     @Override
     public List<StuInfo> queryYJ() {
-        return mapper.getY();
+        return stuMapper.getY();
     }
 
     public boolean hasStu(StuInfo stuInfo) {
-        return mapper.selectId(stuInfo.getId()) != 0;
+        return stuMapper.selectId(stuInfo.getId()) != 0;
     }
 }

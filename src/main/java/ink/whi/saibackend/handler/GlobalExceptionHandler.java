@@ -73,6 +73,7 @@ public class GlobalExceptionHandler {
     * 自定义异常处理类
     * */
     @Order
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = BusinessException.class)
     public ResponseInfo<String> BusinessHandler(BusinessException e) {
         String msg = e.getErrorCode();
