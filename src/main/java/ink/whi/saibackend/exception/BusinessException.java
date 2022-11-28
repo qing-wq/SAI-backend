@@ -10,19 +10,19 @@ public class BusinessException extends RuntimeException{
 
     public static final Logger logger = LoggerFactory.getLogger(BusinessException.class);
 
-    protected String errorCode;
+    protected String errorMsg;
 
-    public String getErrorCode() {
-        return errorCode;
+    public String getErrorMsg() {
+        return errorMsg;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 
     public static BusinessException withErrorCode(String message) {
         BusinessException businessException = new BusinessException();
-        businessException.setErrorCode(message);
+        businessException.setErrorMsg(message);
         return businessException;
     }
 }

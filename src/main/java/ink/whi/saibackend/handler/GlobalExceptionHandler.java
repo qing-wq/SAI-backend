@@ -1,7 +1,7 @@
 package ink.whi.saibackend.handler;
 
 import ink.whi.saibackend.exception.BusinessException;
-import ink.whi.saibackend.pojo.ResponseInfo;
+import ink.whi.saibackend.pojo.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -19,9 +19,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseInfo<String> badRequestException(IllegalArgumentException ex) {
+    public ApiResult<String> badRequestException(IllegalArgumentException ex) {
         log.error("[Error]: 参数格式不合法：{}", ex.getMessage());
-        return new ResponseInfo<>(HttpStatus.BAD_REQUEST.value() + "", "参数格式不符！");
+        return new ApiResult<>(HttpStatus.BAD_REQUEST.value() + "", "参数格式不符！");
     }
 
     /**
@@ -29,8 +29,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({AccessDeniedException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ResponseInfo<String> badRequestException(AccessDeniedException ex) {
-        return new ResponseInfo<>(HttpStatus.FORBIDDEN.value() + "", ex.getMessage());
+    public ApiResult<String> badRequestException(AccessDeniedException ex) {
+        return new ApiResult<>(HttpStatus.FORBIDDEN.value() + "", ex.getMessage());
     }
 
     /**
@@ -38,8 +38,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseInfo<String> badRequestException(Exception ex) {
-        return new ResponseInfo<>(HttpStatus.BAD_REQUEST.value() + "", "缺少必填参数！");
+    public ApiResult<String> badRequestException(Exception ex) {
+        return new ApiResult<>(HttpStatus.BAD_REQUEST.value() + "", "缺少必填参数！");
     }
 
     /**
@@ -47,16 +47,16 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseInfo<String> handleTypeMismatchException(NullPointerException ex) {
+    public ApiResult<String> handleTypeMismatchException(NullPointerException ex) {
         log.error("[Error]: 空指针异常，{}", ex.getMessage());
-        return ResponseInfo.fail("空指针异常");
+        return ApiResult.fail("空指针异常");
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseInfo<String> handleUnexpectedServer(Exception ex) {
+    public ApiResult<String> handleUnexpectedServer(Exception ex) {
         log.error("[Error]: 系统异常：", ex);
-        return ResponseInfo.fail("系统发生异常，请联系管理员");
+        return ApiResult.fail("系统发生异常，请联系管理员");
     }
 
     /**
@@ -64,9 +64,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseInfo<String> exception(Throwable throwable) {
+    public ApiResult<String> exception(Throwable throwable) {
         log.error("[Error]: 系统异常", throwable);
-        return new ResponseInfo<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "系统异常，请联系管理员！");
+        return new ApiResult<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "系统异常，请联系管理员！");
     }
 
     /*
@@ -75,10 +75,10 @@ public class GlobalExceptionHandler {
     @Order
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = BusinessException.class)
-    public ResponseInfo<String> BusinessHandler(BusinessException e) {
-        String msg = e.getErrorCode();
-        log.error("[Error]: {}", e.getMessage());
-        return ResponseInfo.fail(msg);
+    public ApiResult<String> BusinessHandler(BusinessException e) {
+        String msg = e.getErrorMsg();
+        log.error("[Error]: {}", e.getErrorMsg());
+        return ApiResult.fail(msg);
     }
 }
 

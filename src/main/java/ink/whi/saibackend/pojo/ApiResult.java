@@ -4,7 +4,7 @@ import ink.whi.saibackend.constant.ResponseCodeEnums;
 import lombok.Data;
 
 @Data
-public class ResponseInfo<T> {
+public class ApiResult<T> {
     /**
      * 状态码
      */
@@ -18,24 +18,24 @@ public class ResponseInfo<T> {
      */
     private T data;
 
-    public static <T> ResponseInfo<T> success() {
-        return new ResponseInfo<>();
+    public static <T> ApiResult<T> success() {
+        return new ApiResult<>();
     }
 
-    public static <T> ResponseInfo<T> success(T data) {
-        return new ResponseInfo<>(data);
+    public static <T> ApiResult<T> success(T data) {
+        return new ApiResult<>(data);
     }
 
-    public static <T> ResponseInfo<T> fail(String message) {
-        return new ResponseInfo<>(ResponseCodeEnums.FAIL.getCode(), message);
+    public static <T> ApiResult<T> fail(String message) {
+        return new ApiResult<>(ResponseCodeEnums.FAIL.getCode(), message);
     }
 
-    public ResponseInfo() {
+    public ApiResult() {
         this.code = ResponseCodeEnums.SUCCESS.getCode();
         this.message = ResponseCodeEnums.SUCCESS.getMessage();
     }
 
-    public ResponseInfo(ResponseCodeEnums statusEnums) {
+    public ApiResult(ResponseCodeEnums statusEnums) {
         this.code = statusEnums.getCode();
         this.message = statusEnums.getMessage();
     }
@@ -43,7 +43,7 @@ public class ResponseInfo<T> {
     /**
      * 若没有数据返回，可以人为指定状态码和提示信息
      */
-    public ResponseInfo(int code, String msg) {
+    public ApiResult(int code, String msg) {
         this.code = code;
         this.message = msg;
     }
@@ -51,7 +51,7 @@ public class ResponseInfo<T> {
     /**
      * 有数据返回时，状态码为200，默认提示信息为“操作成功！”
      */
-    public ResponseInfo(T data) {
+    public ApiResult(T data) {
         this.data = data;
         this.code = ResponseCodeEnums.SUCCESS.getCode();
         this.message = ResponseCodeEnums.SUCCESS.getMessage();
@@ -60,7 +60,7 @@ public class ResponseInfo<T> {
     /**
      * 有数据返回，状态码为 200，人为指定提示信息
      */
-    public ResponseInfo(T data, String msg) {
+    public ApiResult(T data, String msg) {
         this.data = data;
         this.code = ResponseCodeEnums.SUCCESS.getCode();
         this.message = msg;

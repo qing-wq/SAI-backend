@@ -1,7 +1,8 @@
 package ink.whi.saibackend.controller;
 
 import com.alibaba.fastjson.JSON;
-import ink.whi.saibackend.pojo.ResponseInfo;
+import ink.whi.saibackend.exception.BusinessException;
+import ink.whi.saibackend.pojo.ApiResult;
 import ink.whi.saibackend.pojo.StuInfo;
 import ink.whi.saibackend.service.StuService;
 import ink.whi.saibackend.utils.CheckUtil;
@@ -26,14 +27,15 @@ public class DataController {
     StuService service;
 
     @PostMapping("/submit")
-    public ResponseInfo<String> submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
+    public String submit(@Validated @RequestBody StuInfo stuInfo, BindingResult result) throws IOException {
         Map<String, String> errMap = CheckUtil.CheckResult(result);
         if (!errMap.isEmpty()) {
 //            return JSON.toJSONString(errMap);
-            return ResponseInfo.fail(JSON.toJSONString(errMap));
+            throw BusinessException.withErrorCode(JSON.toJSONString(errMap));
         }
         service.saveStu(stuInfo);
-        return ResponseInfo.success();
+//        return ApiResult.success();
+        return "success";
     }
 
     @GetMapping("/query")
@@ -41,7 +43,7 @@ public class DataController {
     public String query() {
         List<StuInfo> list = service.getAll();
         return JSON.toJSONString(list);
-//        return ResponseInfo.success(list);
+//        return ApiResult.success(list);
     }
 
     @GetMapping("/query/{type}")
@@ -59,8 +61,4 @@ public class DataController {
         return JSON.toJSONString(stu);
     }
 
-
-    /**
-     * 测试事务
-     */
 }
