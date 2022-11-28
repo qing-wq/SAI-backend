@@ -4,13 +4,11 @@ import ink.whi.saibackend.pojo.ApiResult;
 import org.assertj.core.util.Lists;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.file.PathMatcher;
 
 public class MyHandlerMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
 
@@ -27,8 +25,8 @@ public class MyHandlerMethodReturnValueHandler implements HandlerMethodReturnVal
      */
     @Override
     public boolean supportsReturnType(MethodParameter returnType) {
-//        return ApiResult.class.isAssignableFrom(returnType.getParameterType());
-        return handler.supportsReturnType(returnType);
+//        return ApiResult.class.isAssignableFrom(returnType.getParameterType());  // 处理返回值为ApiResult的情况
+        return handler.supportsReturnType(returnType);  // 处理全部返回值
     }
 
     /**
@@ -68,46 +66,3 @@ public class MyHandlerMethodReturnValueHandler implements HandlerMethodReturnVal
                 returnType, mavContainer, webRequest);
     }
 }
-
-
-
-//@Configuration
-//public class ReturnValueConfig implements InitializingBean {
-//    @Autowired
-//    RequestMappingHandlerAdapter requestMappingHandlerAdapter;
-//
-//    @Override
-//    public void afterPropertiesSet() throws Exception {
-//        List<HandlerMethodReturnValueHandler> originHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
-//        List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>(originHandlers.size());
-//        for (HandlerMethodReturnValueHandler originHandler : originHandlers) {
-//            if (originHandler instanceof RequestResponseBodyMethodProcessor) {
-//                newHandlers.add(new MyHandlerMethodReturnValueHandler(originHandler));
-//            } else {
-//                newHandlers.add(originHandler);
-//            }
-//        }
-//        requestMappingHandlerAdapter.setReturnValueHandlers(newHandlers);
-//    }
-//}
-
-//public class MyHandlerMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
-//    private HandlerMethodReturnValueHandler handler;
-//
-//    public MyHandlerMethodReturnValueHandler(HandlerMethodReturnValueHandler handler) {
-//        this.handler = handler;
-//    }
-//
-//    @Override
-//    public boolean supportsReturnType(MethodParameter returnType) {
-//        return handler.supportsReturnType(returnType);
-//    }
-//
-//    @Override
-//    public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("status", "ok");
-//        map.put("data", returnValue);
-//        handler.handleReturnValue(map, returnType, mavContainer, webRequest);
-//    }
-//}
